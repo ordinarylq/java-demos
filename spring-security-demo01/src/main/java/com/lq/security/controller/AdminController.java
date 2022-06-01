@@ -14,7 +14,7 @@ public class AdminController {
 	
 	@RequestMapping("/to/no/auth/page.html")
 	public String toNoAuthPage() {
-		return "no_auth";
+		return "no-auth";
 	}
 
 }

@@ -28,7 +28,10 @@
 				</div>
 				<div
 					class="layadmin-user-login-box layadmin-user-login-body layui-form">
-						
+					<p style="color: red;">${SPRING_SECURITY_LAST_EXCEPTION.message}</p>
+					<form class="form-signin" method="post" action="${pageContext.request.contextPath}/user/login.html">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
 						<div class="layui-form-item">
 							
 							<label
@@ -37,14 +40,14 @@
 							
 							<!-- input的name属性值必须符合SpringSecurity规则，除非专门进行了定制，否则用户名必须使用username，密码必须使用password -->
 							<input type="text"
-								name="loginacct" id="LAY-user-login-username" lay-verify="required"
+								name="loginAcct" id="LAY-user-login-username" lay-verify="required"
 								placeholder="用户名" class="layui-input">
 						</div>
 						<div class="layui-form-item">
 							<label
 								class="layadmin-user-login-icon layui-icon layui-icon-password"
 								for="LAY-user-login-password"></label> <input type="text"
-								name="credential" id="LAY-user-login-password" lay-verify="required"
+								name="loginPswd" id="LAY-user-login-password" lay-verify="required"
 								placeholder="密码" class="layui-input">
 						</div>
 						<div class="layui-form-item">
@@ -74,6 +77,7 @@
 							<button type="submit" class="layui-btn layui-btn-fluid" lay-submit
 								lay-filter="LAY-user-login-submit">登 入</button>
 						</div>
+					</form>
 						<div class="layui-trans layui-form-item layadmin-user-login-other">
 							<label>社交账号登入</label> <a href="javascript:;"><i
 								class="layui-icon layui-icon-login-qq"></i></a> <a href="javascript:;"><i
@@ -95,21 +99,21 @@
 
 	<script src="${PATH }/layui/layui.js"></script>
 	<script>
-		layui.use([ 'element', 'form' ], function() {
-			var element = layui.element, form = layui.form, layer = layui.layer ;
-			form.render();
-			
-			//提交
-			form.on('submit(LAY-user-login-submit)', function(obj) {
-				obj.elem.classList.add("layui-btn-disabled");//样式上的禁用效果
-				obj.elem.disabled = true;//真正的禁用效果
-				layer.msg("登陆成功，即将跳转");
-				setTimeout(function(){
-					location.href="main.html";
-				}, 2000);
-			});
-
-		});
+		// layui.use([ 'element', 'form' ], function() {
+		// 	var element = layui.element, form = layui.form, layer = layui.layer ;
+		// 	form.render();
+		//
+		// 	//提交
+		// 	form.on('submit(LAY-user-login-submit)', function(obj) {
+		// 		obj.elem.classList.add("layui-btn-disabled");//样式上的禁用效果
+		// 		obj.elem.disabled = true;//真正的禁用效果
+		// 		layer.msg("登陆成功，即将跳转");
+		// 		setTimeout(function(){
+		// 			location.href="main.html";
+		// 		}, 2000);
+		// 	});
+		//
+		// });
 	</script>
 </body>
 </html>
