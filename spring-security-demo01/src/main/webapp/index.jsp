@@ -99,9 +99,9 @@
 
 	<script src="${PATH }/layui/layui.js"></script>
 	<script>
-		// layui.use([ 'element', 'form' ], function() {
-		// 	var element = layui.element, form = layui.form, layer = layui.layer ;
-		// 	form.render();
+		layui.use([ 'element', 'form' ], function() {
+			var element = layui.element, form = layui.form, layer = layui.layer ;
+			form.render();
 		//
 		// 	//提交
 		// 	form.on('submit(LAY-user-login-submit)', function(obj) {
@@ -113,7 +113,7 @@
 		// 		}, 2000);
 		// 	});
 		//
-		// });
+		});
 	</script>
 </body>
 </html>

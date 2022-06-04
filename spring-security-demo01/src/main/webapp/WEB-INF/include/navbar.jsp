@@ -33,7 +33,7 @@
 				</dd>
 			</dl></li>
 		<li class="layui-nav-item">
-			<form id="logoutForm" action="${pageContext.request.contextPath }/user/logout.html" method="post">
+			<form id="logoutForm" action="${pageContext.request.contextPath }/admin/logout.html" method="post">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			</form>
 			<a id="logoutAnchor" href="">退出</a>
