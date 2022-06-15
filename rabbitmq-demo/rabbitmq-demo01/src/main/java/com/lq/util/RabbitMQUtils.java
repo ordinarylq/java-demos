@@ -23,7 +23,8 @@ public class RabbitMQUtils {
         ConnectionFactory factory = new ConnectionFactory();
 
         // 2. 设置参数
-        factory.setHost("192.168.145.128");
+//        factory.setHost("192.168.145.128");
+        factory.setHost("192.168.42.129");
         factory.setUsername("admin");
         factory.setPassword("123456");
         //factory.setHandshakeTimeout(10000);
