@@ -22,17 +22,17 @@ public class PaymentController {
     private String serviceId;
 
     @Autowired
-    private PaymentService paymentService;
+    private DiscoveryClient discoveryClient;
 
     @Autowired
-    private DiscoveryClient discoveryClient;
+    private PaymentService paymentService;
 
     @GetMapping("/payment/discovery")
     public Object discovery() {
         List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
         for (ServiceInstance instance : instances) {
             System.out.println("服务id: " + instance.getServiceId() + "\t主机：" + instance.getHost()
-            + "\t端口：" + instance.getPort() + "\turi：" + instance.getUri());
+                    + "\t端口：" + instance.getPort() + "\turi：" + instance.getUri());
         }
         return this.discoveryClient;
     }
