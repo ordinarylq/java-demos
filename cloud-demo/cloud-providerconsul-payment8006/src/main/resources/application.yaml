@@ -1,0 +1,26 @@
+server:
+  port: 8006
+spring:
+  application:
+    name: cloud-payment-service
+  cloud:
+    consul:
+      host: 192.168.145.128
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        hostname: 192.168.145.128
+        heartbeat:
+          enabled: true
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包 com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cloud2022?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.atguigu.springcloud.entities  #所有Entity别名类所在包
