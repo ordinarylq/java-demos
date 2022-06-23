@@ -9,7 +9,6 @@ spring:
       port: 8500
       discovery:
         service-name: ${spring.application.name}
-        hostname: 192.168.145.128
         heartbeat:
           enabled: true
 
