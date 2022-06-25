@@ -21,6 +21,9 @@ public class PaymentController {
     @Value("${spring.application.name}")
     private String serviceId;
 
+    @Value("${server.port}")
+    private String serverPort;
+
     @Autowired
     private DiscoveryClient discoveryClient;
 
@@ -45,5 +48,10 @@ public class PaymentController {
     @GetMapping("/payment/{id}")
     public CommonResult findPaymentById(@PathVariable("id") Long id) {
         return paymentService.findPaymentById(id);
+    }
+
+    @GetMapping("/payment/lb")
+    public String getPaymentLB() {
+        return serverPort;
     }
 }
