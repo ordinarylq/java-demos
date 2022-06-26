@@ -1,0 +1,31 @@
+server:
+  port: 80
+spring:
+  application:
+    name: cloud-order-openfeign-hystrix-service
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka, http://eureka7002.com:7002/eureka
+feign:
+  client:
+    config:
+      default:
+        read-timeout: 5000
+        connect-timeout: 5000
+
+  # 开启了hystrix后，上面的配置超时时间会失效，超时时间默认1s,
+  # 开启了hystrix后，使用@FeignClient修饰的类的所有方法的默认超时时间即为1s， 本例中即为接口PaymentHystrixService
+  #
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
