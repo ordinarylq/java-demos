@@ -3,7 +3,8 @@ package com.lq.demo;
 import com.lq.demo.interceptor.MyInterceptor;
 import com.lq.demo.service.HelloService;
 import com.lq.demo.service.impl.HelloServiceImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * @author qili
