@@ -14,3 +14,13 @@ spring:
     hibernate:
       ddl-auto: update
 
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.lq.mybatisdemo
+  type-handlers-package: com.lq.mybatisdemo.handler
+
+#配置日志
+logging:
+  level:
+    root: info
+  com.lq.mybatisdemo: debug
