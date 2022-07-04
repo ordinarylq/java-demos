@@ -164,7 +164,39 @@ public class RedisController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("success", true);
         return map;
+    }
 
+    @GetMapping("/multi")
+    public Map<String, Object> testMulti() {
+        redisTemplate.opsForValue().set("key1", "value1");
+
+        List list = (List) redisTemplate.execute((RedisOperations operations) -> {
+            // 1. 设置要监控的key1
+            operations.watch("key1");
+
+            // 2. 开启事务
+            operations.multi();
+
+            // 3. 接下来的命令全部入队
+            operations.opsForValue().set("key2", "value2");
+            Object value2 = operations.opsForValue().get("key2");
+            System.out.println("命令在队列，所以value2为null[value2=" + value2 + "]");
+
+            // 模拟命令执行出错
+            operations.opsForValue().increment("key1", 1L);
+
+            operations.opsForValue().set("key3", "value3");
+            Object value3 = operations.opsForValue().get("key2");
+            System.out.println("命令在队列，所以value3为null[value3=" + value3 + "]");
+
+            return operations.exec();
+        });
+
+        System.out.println(list);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("success", true);
+        return map;
     }
 
 }
