@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
@@ -193,6 +195,85 @@ public class RedisController {
         });
 
         System.out.println(list);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("success", true);
+        return map;
+    }
+
+    @GetMapping("/pipeline")
+    public Map<String, Object> testPipeline() {
+        long start = System.currentTimeMillis();
+
+        List list = (List) redisTemplate.executePipelined((RedisOperations operations) -> {
+            for (int i = 1; i <= 100000; i++) {
+                operations.opsForValue().set("pipeline_" + i, "value_" + i);
+
+                String value = (String) operations.opsForValue().get("pipeline_" + i);
+                if (i == 100000) {
+                    System.out.println("命令只是进入队列，所以值为空[value=" + value + "]");
+                }
+            }
+            return null;
+        });
+
+        long end = System.currentTimeMillis();
+        System.out.println("耗时：" + (end - start)); //1095ms
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("success", true);
+        return map;
+    }
+
+    @GetMapping("/lua")
+    public Map<String, Object> testLua() {
+        DefaultRedisScript<String> redisScript = new DefaultRedisScript<>();
+
+        // 设置脚本
+        redisScript.setScriptText("return 'Hello, Redis!'");
+
+        // 定义返回类型
+        redisScript.setResultType(String.class);
+        RedisSerializer stringSerializer = redisTemplate.getStringSerializer();
+
+        // 执行Lua脚本
+        String res = (String) redisTemplate.execute(redisScript, stringSerializer, stringSerializer, null);
+        System.out.println("结果：" + res);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("success", true);
+        return map;
+
+    }
+
+    @GetMapping("/lua2")
+    public Map<String, Object> testLua2(String key1, String key2, String value1, String value2) {
+        // 1. 定义Lua脚本
+        String luaScript = "redis.call('set', KEYS[1], ARGV[1])\n" +
+                "redis.call('set', KEYS[2], ARGV[2])\n" +
+                "local str1 = redis.call('get', KEYS[1]) \n" +
+                "local str2 = redis.call('get', KEYS[2]) \n" +
+                "if str1 == str2 then \n" +
+                "return 1 \n" +
+                "end \n" +
+                "return 0 \n";
+
+        System.out.println(luaScript);
+
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+        redisScript.setScriptText(luaScript);
+        redisScript.setResultType(Long.class);
+
+        RedisSerializer stringSerializer = redisTemplate.getStringSerializer();
+
+        // 定义key参数
+        ArrayList<String> keyList = new ArrayList<>();
+        keyList.add(key1);
+        keyList.add(key2);
+
+        // 传递两个参数值，其中第一个序列化器为key的序列化器，第二个序列化器是参数的序列化器
+        Long result = (Long) redisTemplate.execute(redisScript, stringSerializer, stringSerializer, keyList, value1, value2);
+        System.out.println("res=" + result);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("success", true);
