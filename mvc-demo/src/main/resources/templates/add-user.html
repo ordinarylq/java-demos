@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加用户</title>
+    <script type="text/javascript" th:src="@{/easyui/jquery.min.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $("#submit").click(function () {
+                let userName = $("#userName").val();
+                let note = $("#note").val();
+
+                if($.trim(userName) === '') {
+                    alert("用户名不能为空!")
+                    return;
+                }
+                let params = {
+                    userName: userName,
+                    note: note
+                };
+
+                $.post({
+                   url: "/user/add",
+                   contentType: "application/json",
+                   data: JSON.stringify(params),
+                    success: function (response) {
+                        if(response == null || response.id == null) {
+                            alert("插入失败！")
+                            return;
+                        }
+                        alert("插入成功！");
+                    }
+                });
+            })
+        })
+
+    </script>
+</head>
+<body>
+    <div style="margin: 20px 0;"></div>
+    <form id="insertForm">
+        <table>
+            <tr>
+                <td>用户名称：</td>
+                <td><label for="userName"></label><input id="userName" name="userName" /></td>
+            </tr>
+            <tr>
+                <td>备注：</td>
+                <td><label for="note"></label><input id="note" name="note" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="align-content: center;"><input id="submit" type="button" value="提交"></td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>

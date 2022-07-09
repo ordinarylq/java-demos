@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>日期、数字的格式化</title>
+</head>
+<body>
+    <form th:action="@{/my/data/format}" method="post">
+        <table>
+            <tr>
+                <td>日期(yyyy-MM-dd)</td>
+                <td>
+                    <label>
+                        <input type="text" name="date" value="2022-07-09">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>数字(#,###.##)</td>
+                <td>
+                    <label>
+                        <input type="text" name="number" value="1,234.56">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="align-content: end;">
+                    <input type="submit" value="提交" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>
