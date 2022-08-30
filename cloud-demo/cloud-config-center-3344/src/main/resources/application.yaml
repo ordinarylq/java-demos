@@ -20,6 +20,19 @@ spring:
           default-label: main
       label: main # 读取的分支
 
+  # rabbitmq配置
+  rabbitmq:
+    host: 192.168.145.128
+    port: 5672
+    username: admin
+    password: 123456
+
+# 暴露刷新端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'bus-refresh'
 
 eureka:
   client:
