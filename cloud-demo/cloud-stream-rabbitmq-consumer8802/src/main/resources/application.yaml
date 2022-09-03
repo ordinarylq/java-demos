@@ -1,0 +1,38 @@
+server:
+  port: 8802
+spring:
+  application:
+    name: cloud-stream-consumer
+  cloud:
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 192.168.145.128
+                port: 5672
+                username: admin
+                password: 123456
+      bindings:
+        input:
+          destination: test-stream-exchange
+          content-type: application/json
+          binder: defaultRabbit
+          group: stream-consumer-group
+  rabbitmq:
+    host: 192.168.145.128
+    port: 5672
+    username: admin
+    password: 123456
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka, http://eureka7002.com:7002/eureka
+  instance:
+    instance-id: MsgConsumer8802
+    prefer-ip-address: true
